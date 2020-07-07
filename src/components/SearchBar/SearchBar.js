@@ -1,54 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './SearchBar.css';
 
-function SearchBar({ searchYelp }) {
-  const [search, setSearch] = useState({
-    term: '',
-    location: '',
-    sortBy: 'best_match'
-  });
+function SearchBar({ renderSortByOptions, handleTermChange, handleLocationChange, handleSearch }) {
 
-  const sortByOptions = {
-    'Best Match': 'best_match',
-    'Highest Rated': 'rating',
-    'Most Reviewed': 'review_count'
-  };
-
-  function getSortByClass(sortByOption) {
-    return search.sortBy === sortByOption ? 'active' : '';
-  }
-
-  function handleSortByChange(sortByOption) {
-    return setSearch({
-      sortBy: sortByOption
-    });
-  }
-
-  function handleTermChange(event) {
-    return setSearch({
-      term: event.target.value
-    });
-  }
-
-  function handleLocationChange(event) {
-    return setSearch({
-      location: event.target.value
-    });
-  }
-
-  function handleSearch(event) {
-    searchYelp(search.term, search.location, search.sortBy);
-    event.preventDefault();
-  }
-
-  function renderSortByOptions() {
-    return Object.keys(sortByOptions).map(el => {
-      let sortByOptionValue = sortByOptions[el];
-      return <li 
-              onClick={() => handleSortByChange(sortByOptionValue)} 
-              className={getSortByClass(sortByOptionValue)} 
-              key={sortByOptionValue}>{el}</li>;
-    });
+  function onKeyPress(e) {
+    if(e.which === 13) {
+      handleSearch();
+    }
   }
 
   return (
@@ -59,8 +17,8 @@ function SearchBar({ searchYelp }) {
         </ul>
       </div>
       <div className="SearchBar-fields">
-        <input onChange={handleTermChange} placeholder="Search Businesses" />
-        <input onChange={handleLocationChange} placeholder="Where?" />
+        <input onChange={handleTermChange} onKeyPress={onKeyPress} placeholder="Search Businesses" />
+        <input onChange={handleLocationChange} onKeyPress={onKeyPress} placeholder="Where?" />
       </div>
       <div className="SearchBar-submit">
         <button onClick={handleSearch}>Let's Go</button>

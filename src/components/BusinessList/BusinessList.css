@@ -29,12 +29,6 @@
   justify-content: space-between;
 }
 
-.Business-information p {
-  font-size: .88rem;
-  font-weight: 300;
-  line-height: 1rem;
-}
-
 .Business-address {
   display: flex;
   flex-direction: column;
@@ -55,5 +49,11 @@
 
 .Business-reviews .rating {
   font-size: .88rem;
+  line-height: 1rem;
+}
+
+p {
+  font-size: .88rem;
+  font-weight: 300;
   line-height: 1rem;
 }
