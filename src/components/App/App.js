@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import BusinessList from '../BusinessList/BusinessList';
 import SearchBar from '../SearchBar/SearchBar';
@@ -7,6 +7,7 @@ import apiConfig from './apiKeys';
 
 function App() {
   const [businesses, setBusinesses] = useState([]);
+  const [sortedBusinesses, setSortedBusiness] = useState([]);
   const [searchSort, setSearchSort] = useState({sortBy: 'best_match'});
   const [searchTerm, setSearchTerm] = useState({term: ''});
   const [searchLocale, setSearchLocale] = useState({location: ''});
@@ -14,8 +15,14 @@ function App() {
   const sortByOptions = {
     'Best Match': 'best_match',
     'Highest Rated': 'rating',
-    'Most Reviewed': 'review_count'
+    'Most Reviewed': 'reviewCount'
   };
+
+  useEffect(() => {
+    let sorted = businesses.map(a => ({...a}));
+    sorted.sort((a, b) => (a[searchSort.sortBy] > b[searchSort.sortBy]) ? -1 : 1);
+    setSortedBusiness(sorted);
+  }, [businesses, searchSort.sortBy]);
 
   function handleSortByChange(sortByOption) {
     setSearchSort({sortBy: sortByOption});
@@ -37,8 +44,7 @@ function App() {
   }
 
   function handleSearch() {
-    searchYelp(searchTerm.term, searchLocale.location, searchSort.sortBy);
-    setBusinesses([]); //Needed to clear previous states
+    searchYelp(searchTerm.term, searchLocale.location);
   }
 
   function renderSortByOptions() {
@@ -51,16 +57,17 @@ function App() {
     });
   }
 
-  function searchYelp(term, location, sortBy) {
-    return fetch(`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${term}&location=${location}&sort_by=${sortBy}`, {
+  function searchYelp(term, location) {
+    return fetch(`https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=${term}&location=${location}&sort_by=best_match`, {
       headers: {
-        Authorization: `Bearer ${apiKey}`
+        Authorization: `Bearer ${apiKey}`,
       }
-    })
+    }).then(setBusinesses([])) //Empty previous state only when fetching new data
       .then(response => response.json())
       .then(jsonResponse => {
         if (jsonResponse.businesses) {
           return jsonResponse.businesses.map(business => {
+            console.log(business);
             return setBusinesses(el => [...el, {
               id: business.id,
               imageSrc: business.image_url,
@@ -84,7 +91,7 @@ function App() {
     <div className="App">
       <h1>ravenous</h1>
       <SearchBar renderSortByOptions={renderSortByOptions} handleSearch={handleSearch} handleTermChange={handleTermChange} handleLocationChange={handleLocationChange} />
-      <BusinessList businesses={businesses} />
+      <BusinessList businesses={businesses} sortedBusinesses={sortedBusinesses} searchSort={searchSort} />
     </div>
   );
 }
