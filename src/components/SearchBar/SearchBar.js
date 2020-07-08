@@ -1,10 +1,11 @@
 import React from 'react';
 import './SearchBar.css';
 
-function SearchBar({ renderSortByOptions, handleTermChange, handleLocationChange, handleSearch }) {
+function SearchBar({ renderSortByOptions, handleTermChange, handleLocationChange, handleSearch, setIsLoading}) {
 
   function onKeyPress(e) {
     if(e.which === 13) {
+      setIsLoading(true);
       handleSearch();
     }
   }
@@ -21,7 +22,10 @@ function SearchBar({ renderSortByOptions, handleTermChange, handleLocationChange
         <input onChange={handleLocationChange} onKeyPress={onKeyPress} placeholder="Where?" />
       </div>
       <div className="SearchBar-submit">
-        <button onClick={handleSearch}>Let's Go</button>
+        <button onClick={() => {
+          setIsLoading(true);
+          handleSearch();
+        }}>Let's Go</button>
       </div>
     </div>
   );

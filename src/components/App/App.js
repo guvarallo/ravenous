@@ -3,6 +3,7 @@ import './App.css';
 import BusinessList from '../BusinessList/BusinessList';
 import SearchBar from '../SearchBar/SearchBar';
 import apiConfig from './apiKeys';
+import ReactLoading from 'react-loading';
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
   const [searchSort, setSearchSort] = useState({sortBy: 'best_match'});
   const [searchTerm, setSearchTerm] = useState({term: ''});
   const [searchLocale, setSearchLocale] = useState({location: ''});
+  const [isLoading, setIsLoading] = useState(false); //Needed for ReactLoadin animation
   const apiKey = apiConfig.apiKey;
   const sortByOptions = {
     'Best Match': 'best_match',
@@ -26,14 +28,17 @@ function App() {
 
   function handleSortByChange(sortByOption) {
     setSearchSort({sortBy: sortByOption});
+    console.log('handleSort');
   }
 
   function handleTermChange(event) {
     setSearchTerm({term: event.target.value});
+    console.log('handleTermChange');
   }
 
   function handleLocationChange(event) {
     setSearchLocale({location: event.target.value});
+    console.log('handleLocationChange');
   }
 
   function getSortByClass(sortByOption) {
@@ -45,6 +50,7 @@ function App() {
 
   function handleSearch() {
     searchYelp(searchTerm.term, searchLocale.location);
+    console.log('handleSearch');
   }
 
   function renderSortByOptions() {
@@ -66,6 +72,7 @@ function App() {
       .then(response => response.json())
       .then(jsonResponse => {
         if (jsonResponse.businesses) {
+          setIsLoading(false); //After the response, the animation from ReactLoading stops
           return jsonResponse.businesses.map(business => {
             return setBusinesses(el => [...el, {
               id: business.id,
@@ -94,12 +101,19 @@ function App() {
         handleSearch={handleSearch} 
         handleTermChange={handleTermChange} 
         handleLocationChange={handleLocationChange} 
+        setIsLoading={setIsLoading}
       />
-      <BusinessList
-        businesses={businesses} 
-        sortedBusinesses={sortedBusinesses} 
-        searchSort={searchSort} 
-      />
+      {isLoading ? 
+        <div className="Loader">
+          <ReactLoading type={'spinningBubbles'} height={'20%'} width={'20%'} color={'#cca353'} />
+        </div>
+      :
+        <BusinessList
+          businesses={businesses} 
+          sortedBusinesses={sortedBusinesses} 
+          searchSort={searchSort} 
+        />
+      }
     </div>
   );
 }
