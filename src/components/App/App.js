@@ -67,7 +67,6 @@ function App() {
       .then(jsonResponse => {
         if (jsonResponse.businesses) {
           return jsonResponse.businesses.map(business => {
-            console.log(business);
             return setBusinesses(el => [...el, {
               id: business.id,
               imageSrc: business.image_url,
@@ -90,8 +89,17 @@ function App() {
   return (
     <div className="App">
       <h1>ravenous</h1>
-      <SearchBar renderSortByOptions={renderSortByOptions} handleSearch={handleSearch} handleTermChange={handleTermChange} handleLocationChange={handleLocationChange} />
-      <BusinessList businesses={businesses} sortedBusinesses={sortedBusinesses} searchSort={searchSort} />
+      <SearchBar
+        renderSortByOptions={renderSortByOptions} 
+        handleSearch={handleSearch} 
+        handleTermChange={handleTermChange} 
+        handleLocationChange={handleLocationChange} 
+      />
+      <BusinessList
+        businesses={businesses} 
+        sortedBusinesses={sortedBusinesses} 
+        searchSort={searchSort} 
+      />
     </div>
   );
 }
