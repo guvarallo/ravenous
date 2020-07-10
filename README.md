@@ -1,6 +1,6 @@
 # ravenous
 
-An app to search restaurants, bars, etc, in any location using the Yelp API.
+An app to search for businesses in any location using the Yelp API.
 
 Try it live at: https://ravenouscode-app.surge.sh/
 
