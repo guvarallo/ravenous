@@ -2,6 +2,8 @@
 
 An app to search restaurants, bars, etc, in any location using the Yelp API.
 
+Try it live at: https://ravenouscode-app.surge.sh/
+
 ## Getting Started
 
 1. Clone this repo
@@ -15,4 +17,5 @@ You will need to generate your own API Key on Yelp at https://www.yelp.com/devel
 ## Built With
 
 * [React](https://reactjs.org/)
-* [react-loading](https://github.com/fakiolinho/react-loading)
+* [react-loading](https://github.com/fakiolinho/react-loading) - For loading effetcs
+* [Surge](https://surge.sh/) - For deployment
