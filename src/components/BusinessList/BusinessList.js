@@ -25,7 +25,7 @@ function BusinessList({ businesses, sortedBusinesses, searchSort }) {
                   <p>{business.reviewCount} reviews</p>
                 </div>
               </div>
-              <p>More information: <a href={business.url} target="_blank" rel="noopener noreferrer">Click here</a></p>
+              <p>More information: <a href={business.url}>Click here</a></p>
             </div>
           ) 
         })
@@ -49,7 +49,7 @@ function BusinessList({ businesses, sortedBusinesses, searchSort }) {
                   <p>{business.reviewCount} reviews</p>
                 </div>
               </div>
-              <p>More information: <a href={business.url} target="_blank" rel="noopener noreferrer">Click here</a></p>
+              <p>More information: <a href={business.url}>Click here</a></p>
             </div>
           ) 
         })
